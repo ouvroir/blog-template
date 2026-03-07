@@ -4,24 +4,25 @@ declare global {
 	namespace App {
 		// interface Error {}
 		// interface Locals {}
-		// interface PageData {}
+		interface PageData {
+			metadata?: {
+				title?: string;
+				description?: string;
+				[key: string]: unknown;
+			};
+		}
 		// interface PageState {}
 		// interface Platform {}
 	}
-	interface MdsvexFile {
-		default: import('svelte/internal').SvelteComponent;
-		metadata: Record<string, string>;
-	}
-
-	type MdsvexResolver = () => Promise<MdsvexFile>;
 
 	interface Posts {
 		slug: string;
 		title: string;
 		author: string;
 		description: string;
-		date: string;
+		date: string | Date;
 		published: boolean;
+		[key: string]: unknown;
 	}
 }
 

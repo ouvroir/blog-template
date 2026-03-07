@@ -1,6 +1,6 @@
 ---
 title: "Syntax highlighting with mdsvex"
-date: "2023-01-05"
+date: 2023-01-05
 author: "emchateau"
 description: "Test description"
 published: true

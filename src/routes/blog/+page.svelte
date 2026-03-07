@@ -1,14 +1,15 @@
-<script>
-	let { data } = $props();
+<script lang="ts">
+	import type { PageProps } from './$types';
+	import * as config from '$lib/config';
+
+	let { data }: PageProps = $props();
 </script>
 
-<!-- Pour surcharger le SEO du layout, décommentez et personnalisez :
+
 <svelte:head>
-	<title>Titre personnalisé</title>
-	<meta name="description" content="Description personnalisée" />
-	<meta property="og:image" content="/images/blog-cover.jpg" />
+	<title>Blog | {config.siteTitle}</title>
+	<meta name="description" content={config.siteDescription} />
 </svelte:head>
--->
 
 <h1>Liste des billets</h1>
 

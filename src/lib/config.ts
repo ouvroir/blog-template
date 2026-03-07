@@ -13,6 +13,9 @@ export const siteAuthor = 'Ouvroir';
 // posts shown per page on the main blog index pages
 export const postsPerPage = 10;
 
+// ORCID identifier (optional)
+export const orcidId = '0000-0003-4092-4569';
+
 // Main nav menu (also used by the footer and mobile nav)
 export const navItems = [
 	{

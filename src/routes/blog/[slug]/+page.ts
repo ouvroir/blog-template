@@ -1,31 +1,60 @@
 import type { PageLoad } from './$types';
-import { slugFromPath } from '$lib/utilities/slugFromPath';
 import { error } from '@sveltejs/kit';
 
-export const load: PageLoad = async ({ params }) => {
-	const modules = import.meta.glob(`/src/posts/*.{md,svx,svelte.md}`);
+import { isPost } from '$lib/utilities/isPost';
+import { normalizePostDate } from '$lib/utilities/normalizePostDate';
+import { slugFromPath } from '$lib/utilities/slugFromPath';
 
-	let match: { path?: string; resolver?: MdsvexResolver } = {};
-	for (const [path, resolver] of Object.entries(modules)) {
-		if (slugFromPath(path) === params.slug) {
-			match = { path, resolver: resolver as unknown as MdsvexResolver };
-			break;
-		}
+export const load: PageLoad = async ({ params }) => {
+	// Load post
+	const modules = import.meta.glob(`/src/posts/*.{md,svx,svelte.md}`);
+	const match = Object.entries(modules).find(([path]) => slugFromPath(path) === params.slug);
+
+	if (!match) {
+		throw error(404); // Couldn't resolve the post
 	}
 
-	const post = await match?.resolver?.();
+	const [, resolver] = match;
+	const post = await resolver();
+	const mdsvexPost = post as {
+		default: import('svelte').ComponentType;
+		metadata: Record<string, unknown>;
+	};
 
-	if (!post || !post.metadata.published) {
+	const postMetadata: Partial<Posts> = {
+		slug: params.slug,
+		...mdsvexPost.metadata
+	};
+
+	if (!isPost(postMetadata)) {
+		throw error(500, `Invalid metadata shape for post: ${params.slug}`);
+	}
+
+	const normalizedDate = normalizePostDate(postMetadata.date);
+
+	if (!normalizedDate) {
+		throw error(500, `Invalid metadata date for post: ${params.slug}`);
+	}
+
+	if (!postMetadata.published) {
 		throw error(404); // Couldn't resolve the post
-}
+	}
 
-return {
-slug: params.slug,
-component: post.default,
-frontmatter: post.metadata,
-metadata: {
-title: post.metadata.title,
-description: post.metadata.description
-}
-};
+	const normalizedMetadata: Posts = {
+		...postMetadata,
+		date: normalizedDate
+	};
+
+	const postData = {
+		component: mdsvexPost.default,
+		metadata: normalizedMetadata
+	};
+
+	return {
+		post: postData,
+		metadata: {
+			title: postData.metadata.title,
+			description: postData.metadata.description
+		}
+	};
 };

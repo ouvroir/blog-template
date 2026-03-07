@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	let { children } = $props();
-	import Nav from '$lib/components/Nav.svelte';
+
 	import * as config from '$lib/config';
 	import * as seo from '$lib/utilities/seo';
 	
+	import Footer from '$lib/components/Footer.svelte';
+	import Nav from '$lib/components/Nav.svelte';
+	
+	let { children } = $props();
 	let canonical = $derived(seo.getCanonicalUrl($page.url.pathname));
 	
 	// Récupère les métadonnées depuis $page.data.metadata (défini par les +page.ts)
@@ -24,6 +27,4 @@
 <main>
 	{@render children?.()}
 </main>
-<footer>
-	<p>footer</p>
-</footer>
+<Footer/>
