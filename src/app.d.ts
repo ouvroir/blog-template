@@ -29,6 +29,36 @@ declare global {
 		published: boolean;
 		[key: string]: unknown;
 	}
+
+	interface OrcidProfile {
+		name?: string;
+		biography?: string;
+		affiliations?: OrcidAffiliation[];
+		works?: OrcidWork[];
+		email?: string;
+		urls?: OrcidUrl[];
+		error?: string;
+	}
+
+	interface OrcidAffiliation {
+		title?: string;
+		organization?: string;
+		startDate?: string;
+		endDate?: string;
+	}
+
+	interface OrcidWork {
+		title?: string;
+		type?: string;
+		date?: string;
+		url?: string;
+		doi?: string;
+	}
+
+	interface OrcidUrl {
+		name?: string;
+		url?: string;
+	}
 }
 
 export {};
