@@ -14,10 +14,25 @@ export const tagToSlug = (tag: string): string =>
 		.replace(/^-+|-+$/g, '');
 
 export const normalizeTags = (value: unknown): string[] => {
+	const parseStringTags = (input: string): string[] => {
+		const trimmed = input.trim();
+		if (!trimmed) return [];
+
+		// Supports YAML-like list strings: "- item1\n- item2"
+		if (trimmed.includes('\n')) {
+			return trimmed
+				.split(/\r?\n/)
+				.map((line) => line.replace(/^\s*-\s*/, '').trim())
+				.filter(Boolean);
+		}
+
+		return trimmed.split(',');
+	};
+
 	const rawTags = Array.isArray(value)
 		? value
 		: typeof value === 'string'
-			? value.split(',')
+			? parseStringTags(value)
 			: [];
 
 	const uniqueBySlug = new Map<string, string>();

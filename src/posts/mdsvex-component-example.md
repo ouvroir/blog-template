@@ -3,7 +3,10 @@ title: "A Markdown post with a Svelte component"
 date: 2023-04-28
 author: "emchateau"
 description: "Test description"
-tags: ["mdsvex", "svelte"]
+tags:
+  - mdsvex
+  - svelte
+slug: test-de-slug
 published: true
 ---
 

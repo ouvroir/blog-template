@@ -40,6 +40,11 @@ export const navItems = [
 		// hidden not defined = shown by default
 	},
 	{
+		title: 'Projets',
+		route: '/projects'
+		// hidden not defined = shown by default
+	},
+	{
 		title: 'Tags',
 		route: '/tags'
 		// hidden not defined = shown by default

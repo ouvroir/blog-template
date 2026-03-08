@@ -21,8 +21,8 @@ export const loadPublishedPosts = async (): Promise<LoadedPost[]> => {
 
 	const loaded = await Promise.all(
 		entries.map(async ([path, resolver]): Promise<LoadedPost | null> => {
-			const slug = slugFromPath(path);
-			if (!slug) {
+			const pathSlug = slugFromPath(path);
+			if (!pathSlug) {
 				throw error(500, `Invalid post path: ${path}`);
 			}
 
@@ -32,27 +32,27 @@ export const loadPublishedPosts = async (): Promise<LoadedPost[]> => {
 				metadata: Record<string, unknown>;
 			};
 
-			const candidate: Partial<Posts> = {
-				slug,
-				...mdsvexPost.metadata
-			};
+			const candidate = mdsvexPost.metadata as Partial<Posts>;
 
 			if (!isPost(candidate)) {
-				throw error(500, `Invalid metadata shape for post: ${slug}`);
+				throw error(500, `Invalid metadata shape for post: ${pathSlug}`);
 			}
 
 			if (!candidate.published) return null;
 
 			const normalizedDate = normalizePostDate(candidate.date);
 			if (!normalizedDate) {
-				throw error(500, `Invalid metadata date format for: ${slug}`);
+				throw error(500, `Invalid metadata date format for: ${candidate.slug ?? pathSlug}`);
 			}
 
+			const resolvedSlug = candidate.slug?.trim() || pathSlug;
+
 			return {
-				slug,
+				slug: resolvedSlug,
 				component: mdsvexPost.default,
 				metadata: {
 					...candidate,
+					slug: resolvedSlug,
 					date: normalizedDate,
 					tags: normalizeTags(mdsvexPost.metadata.tags)
 				}

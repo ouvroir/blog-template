@@ -31,9 +31,9 @@
 </header>
 <main>
 	<Breadcrumb/>
-	<section id="page-content" tabindex="-1">
+	<article id="page-content" tabindex="-1">
 		{@render children?.()}
-	</section>
+	</article>
 </main>
 <Footer/>
 
