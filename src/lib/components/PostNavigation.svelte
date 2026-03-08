@@ -4,13 +4,15 @@
 		title: string;
 	};
 
+	interface Props {
+		previousPost?: NavigationPost | null;
+		nextPost?: NavigationPost | null;
+	}
+
 	let {
 		previousPost = null,
 		nextPost = null
-	}: {
-		previousPost?: NavigationPost | null;
-		nextPost?: NavigationPost | null;
-	} = $props();
+	}: Props = $props();
 </script>
 
 {#if previousPost || nextPost}

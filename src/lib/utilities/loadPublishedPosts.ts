@@ -32,26 +32,26 @@ export const loadPublishedPosts = async (): Promise<LoadedPost[]> => {
 				metadata: Record<string, unknown>;
 			};
 
-			const candidate = mdsvexPost.metadata as Partial<Posts>;
+			const frontmatter = mdsvexPost.metadata as Partial<Posts>;
 
-			if (!isPost(candidate)) {
+			if (!isPost(frontmatter)) {
 				throw error(500, `Invalid metadata shape for post: ${pathSlug}`);
 			}
 
-			if (!candidate.published) return null;
+			if (!frontmatter.published) return null;
 
-			const normalizedDate = normalizePostDate(candidate.date);
+			const normalizedDate = normalizePostDate(frontmatter.date);
 			if (!normalizedDate) {
-				throw error(500, `Invalid metadata date format for: ${candidate.slug ?? pathSlug}`);
+				throw error(500, `Invalid metadata date format for: ${frontmatter.slug ?? pathSlug}`);
 			}
 
-			const resolvedSlug = candidate.slug?.trim() || pathSlug;
+			const resolvedSlug = frontmatter.slug?.trim() || pathSlug;
 
 			return {
 				slug: resolvedSlug,
 				component: mdsvexPost.default,
 				metadata: {
-					...candidate,
+					...frontmatter,
 					slug: resolvedSlug,
 					date: normalizedDate,
 					tags: normalizeTags(mdsvexPost.metadata.tags)
@@ -60,7 +60,18 @@ export const loadPublishedPosts = async (): Promise<LoadedPost[]> => {
 		})
 	);
 
-	return loaded.filter((post): post is LoadedPost => post !== null);
+	const publishedPosts = loaded.filter((post): post is LoadedPost => post !== null);
+	const seenSlugs = new Set<string>();
+
+	for (const post of publishedPosts) {
+		if (seenSlugs.has(post.slug)) {
+			throw error(500, `Duplicate post slug detected: ${post.slug}`);
+		}
+
+		seenSlugs.add(post.slug);
+	}
+
+	return publishedPosts;
 };
 
 const toSortableDate = (date: string): string => (date.length === 7 ? `${date}-01` : date);

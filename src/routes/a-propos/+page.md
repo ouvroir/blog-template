@@ -1,6 +1,7 @@
 ---
 title: À propos
 description: En savoir plus sur le blog template d’Ouvroir
+slug: testo
 ---
 
 <script>

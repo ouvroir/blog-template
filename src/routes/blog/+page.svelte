@@ -13,8 +13,13 @@
 
 <h1>Liste des billets</h1>
 <section aria-label="Articles du blog">
-	{#each data.posts as item (item.slug)}
-		<ArticleCard slug={item.slug} title={item.title} date={item.date} tags={item.tags} />
+	{#each data.posts as post (post.slug)}
+		<ArticleCard
+			slug={post.slug}
+			title={post.title}
+			date={post.date}
+			tags={post.tags}
+		/>
 	{/each}
 </section>
 

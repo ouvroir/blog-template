@@ -10,7 +10,7 @@
 
 <nav aria-label="Navigation principale">
 	<a href="/" aria-label="Accueil">
-		<img src="/images/logo.svg" alt={siteTitle} height="70" />
+		<img src="/images/logo.svg" alt={siteTitle} height="60" />
 	</a>
 	<ul>
 		{#each visibleItems as item (item.route)}

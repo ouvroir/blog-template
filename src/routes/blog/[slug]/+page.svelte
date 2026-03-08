@@ -1,15 +1,17 @@
 <script lang="ts">
 	import type { PageProps } from './$types';
-	
 	import * as config from '$lib/config';
 
 	import PostNavigation from '$lib/components/PostNavigation.svelte';
 	import TagList from '$lib/components/TagList.svelte';
 
 	let { data }: PageProps = $props();
-	let { post, previousPost, nextPost } = $derived(data);
-	let metadata = $derived(post.metadata);
-	let Component = $derived(post.component);
+
+	const post = $derived(data.post);
+	const previousPost = $derived(data.previousPost);
+	const nextPost = $derived(data.nextPost);
+	const metadata = $derived(post.metadata);
+	const Content = $derived(post.component);
 </script>
 
 <svelte:head>
@@ -17,7 +19,7 @@
 	<meta name="description" content={metadata.description || config.siteDescription} />
 </svelte:head>
 
-<Component />
+<Content />
 
 <TagList tags={metadata.tags} />
 

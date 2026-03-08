@@ -1,13 +1,15 @@
 <script lang="ts">
 	import { tagToSlug } from '$lib/utilities/tags';
 
-	let {
-		tags = [],
-		label = 'Tags de l\'article'
-	}: {
+	interface Props {
 		tags?: string[];
 		label?: string;
-	} = $props();
+	}
+
+	let {
+		tags = [],
+		label = 'Tags de l’article'
+	}: Props = $props();
 </script>
 
 {#if tags.length > 0}

@@ -1,17 +1,19 @@
 <script lang="ts">
 	import TagList from '$lib/components/TagList.svelte';
 
+	interface Props {
+		slug: string;
+		title: string;
+		date: string;
+		tags?: string[];
+	}
+
 	let {
 		slug,
 		title,
 		date,
 		tags = []
-	}: {
-		slug: string;
-		title: string;
-		date: string;
-		tags?: string[];
-	} = $props();
+	}: Props = $props();
 </script>
 
 <aside>

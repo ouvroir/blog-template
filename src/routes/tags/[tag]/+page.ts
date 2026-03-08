@@ -13,6 +13,12 @@ export const load: PageLoad = async ({ params }) => {
 		throw error(404, 'Tag introuvable');
 	}
 
+	const tag = {
+		name: currentTag.tag,
+		slug: currentTag.slug,
+		count: currentTag.count
+	};
+
 	const posts = allPosts
 		.filter((post) => post.metadata.tags.some((tag) => tagToSlug(tag) === params.tag))
 		.map((post) => ({
@@ -23,11 +29,11 @@ export const load: PageLoad = async ({ params }) => {
 		}));
 
 	return {
-		tag: currentTag,
+		tag,
 		posts,
 		metadata: {
-			title: `Tag: ${currentTag.tag}`,
-			description: `Billets associés au tag ${currentTag.tag}`
+			title: `Tag: ${tag.name}`,
+			description: `Billets associés au tag ${tag.name}`
 		}
 	};
 };

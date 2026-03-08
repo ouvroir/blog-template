@@ -7,15 +7,20 @@
 </script>
 
 <svelte:head>
-	<title>{data.tag.tag} | {config.siteTitle}</title>
-	<meta name="description" content={`Billets associés au tag ${data.tag.tag}`} />
+	<title>{data.tag.name} | {config.siteTitle}</title>
+	<meta name="description" content={`Billets associés au tag ${data.tag.name}`} />
 </svelte:head>
 
-<h1>Tag: #{data.tag.tag}</h1>
+<h1>Tag: #{data.tag.name}</h1>
 <p>{data.tag.count} billet(s)</p>
 
-<section aria-label={`Articles pour le tag ${data.tag.tag}`}>
-	{#each data.posts as item (item.slug)}
-		<ArticleCard slug={item.slug} title={item.title} date={item.date} tags={item.tags} />
+<section aria-label={`Articles pour le tag ${data.tag.name}`}>
+	{#each data.posts as post (post.slug)}
+		<ArticleCard
+			slug={post.slug}
+			title={post.title}
+			date={post.date}
+			tags={post.tags}
+		/>
 	{/each}
 </section>

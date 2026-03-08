@@ -10,6 +10,7 @@ declare global {
 			metadata?: {
 				title?: string;
 				description?: string;
+				author?: string | string[];
 				slug?: string;
 				[key: string]: unknown;
 			};
@@ -21,7 +22,7 @@ declare global {
 	interface Posts {
 		slug?: string;
 		title: string;
-		author: string;
+		author?: string | string[];
 		description: string;
 		date: string | Date;
 		tags?: string[] | string;
