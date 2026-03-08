@@ -48,16 +48,17 @@
 	}
 
 	:global(article :is(h1, h2, h3, h4, h5, h6) .heading-anchor) {
-		color: var(--color-link);
+		color: var(--color-link, #118bee);
 		font-size: 0.85em;
 		margin-left: 0.25rem;
-		opacity: 0.5;
+		opacity: 0;
 		text-decoration: none;
+		transition: opacity 0.2s;
 	}
 
 	:global(article :is(h1, h2, h3, h4, h5, h6):hover .heading-anchor),
 	:global(article :is(h1, h2, h3, h4, h5, h6):focus-within .heading-anchor) {
-		opacity: 1;
+		opacity: 0.3;
 	}
 
 	/* Styles pour les notes de bas de page */
