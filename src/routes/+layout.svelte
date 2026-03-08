@@ -46,4 +46,82 @@
 	.skip-link:focus-visible {
 		clip-path: none;
 	}
+
+	:global(article :is(h1, h2, h3, h4, h5, h6) .heading-anchor) {
+		color: var(--color-link);
+		font-size: 0.85em;
+		margin-left: 0.25rem;
+		opacity: 0.5;
+		text-decoration: none;
+	}
+
+	:global(article :is(h1, h2, h3, h4, h5, h6):hover .heading-anchor),
+	:global(article :is(h1, h2, h3, h4, h5, h6):focus-within .heading-anchor) {
+		opacity: 1;
+	}
+
+	/* Styles pour les notes de bas de page */
+	:global(article .footnotes) {
+		margin-top: 2rem;
+		padding-top: 1rem;
+		border-top: 1px solid var(--color-bg-secondary, #e0e0e0);
+		font-size: 0.9em;
+	}
+
+	:global(article .footnotes ol) {
+		padding-left: 1.5rem;
+	}
+
+	/* Appels de notes dans le texte : style discret et neutre */
+	:global(article sup[id^="fnref-"]) {
+		background: none;
+		padding: 0;
+	}
+
+	:global(article a.footnote-ref) {
+		color: var(--color-text);
+		text-decoration: none;
+	}
+
+	:global(article a.footnote-ref:hover) {
+		text-decoration: underline;
+	}
+
+	/* Lien retour dans les notes de bas de page */
+	:global(article .footnote-backref) {
+		text-decoration: none;
+	}
+
+	/* Numérotation des paragraphes dans la marge gauche */
+	:global(article) {
+		counter-reset: paragraph;
+		position: relative;
+	}
+
+	:global(article > p) {
+		counter-increment: paragraph;
+		position: relative;
+	}
+
+	:global(article > p::before) {
+		content: counter(paragraph);
+		position: absolute;
+		left: -2rem;
+		color: var(--color-link, #118bee);
+		opacity: 0.3;
+		user-select: none;
+	}
+
+	/* Ne pas numéroter les paragraphes dans les notes de bas de page */
+	:global(article .footnotes) {
+		counter-reset: none;
+	}
+
+	:global(article .footnotes p) {
+		counter-increment: none;
+	}
+
+	:global(article .footnotes p::before) {
+		content: none;
+	}
 </style>
