@@ -1,60 +1,33 @@
 import type { PageLoad } from './$types';
 import { error } from '@sveltejs/kit';
 
-import { isPost } from '$lib/utilities/isPost';
-import { normalizePostDate } from '$lib/utilities/normalizePostDate';
-import { slugFromPath } from '$lib/utilities/slugFromPath';
+import { byPostDateDesc, loadPublishedPosts } from '$lib/utilities/loadPublishedPosts';
+
+const toNavigationPost = (post: Awaited<ReturnType<typeof loadPublishedPosts>>[number]) => ({
+	slug: post.slug,
+	title: post.metadata.title,
+	date: post.metadata.date
+});
 
 export const load: PageLoad = async ({ params }) => {
-	// Load post
-	const modules = import.meta.glob(`/src/posts/*.{md,svx,svelte.md}`);
-	const match = Object.entries(modules).find(([path]) => slugFromPath(path) === params.slug);
+	const allPosts = (await loadPublishedPosts()).sort(byPostDateDesc);
 
-	if (!match) {
+	const currentPost = allPosts.find((post) => post.slug === params.slug);
+	if (!currentPost) {
 		throw error(404); // Couldn't resolve the post
 	}
 
-	const [, resolver] = match;
-	const post = await resolver();
-	const mdsvexPost = post as {
-		default: import('svelte').ComponentType;
-		metadata: Record<string, unknown>;
-	};
-
-	const postMetadata: Partial<Posts> = {
-		slug: params.slug,
-		...mdsvexPost.metadata
-	};
-
-	if (!isPost(postMetadata)) {
-		throw error(500, `Invalid metadata shape for post: ${params.slug}`);
-	}
-
-	const normalizedDate = normalizePostDate(postMetadata.date);
-
-	if (!normalizedDate) {
-		throw error(500, `Invalid metadata date for post: ${params.slug}`);
-	}
-
-	if (!postMetadata.published) {
-		throw error(404); // Couldn't resolve the post
-	}
-
-	const normalizedMetadata: Posts = {
-		...postMetadata,
-		date: normalizedDate
-	};
-
-	const postData = {
-		component: mdsvexPost.default,
-		metadata: normalizedMetadata
-	};
+	const currentIndex = allPosts.findIndex((post) => post.slug === params.slug);
+	const previousPost = currentIndex < allPosts.length - 1 ? toNavigationPost(allPosts[currentIndex + 1]) : null;
+	const nextPost = currentIndex > 0 ? toNavigationPost(allPosts[currentIndex - 1]) : null;
 
 	return {
-		post: postData,
+		post: currentPost,
+		previousPost,
+		nextPost,
 		metadata: {
-			title: postData.metadata.title,
-			description: postData.metadata.description
+			title: currentPost.metadata.title,
+			description: currentPost.metadata.description
 		}
 	};
 };

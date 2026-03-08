@@ -3,8 +3,11 @@ title: "Syntax highlighting with mdsvex"
 date: 2023-01-05
 author: "emchateau"
 description: "Test description"
+tags: ["mdsvex", "prism", "code"]
 published: true
 ---
+
+# Syntax highlighting with mdsvex
 
 mdsvex has automatic, built-in syntax highlighting with [Prism.js](https://prismjs.com/); just include the language name after the triple backticks, like so:
 

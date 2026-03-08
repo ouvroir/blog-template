@@ -1,10 +1,13 @@
 ---
 title: "Automatic heading links in mdsvex"
-date: "2025-04-09"
+date: 2025-04-09
 author: "emchateau"
 description: "Test description"
+tags: ["mdsvex", "headings"]
 published: true
 ---
+
+# Automatic heading links in mdsvex
 
 Here are some headings:
 

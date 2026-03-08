@@ -1,10 +1,13 @@
 ---
 title: "A Markdown post with a Svelte component"
-date: "2023-04-28"
+date: 2023-04-28
 author: "emchateau"
 description: "Test description"
+tags: ["mdsvex", "svelte"]
 published: true
 ---
+
+# A Markdown post with a Svelte component
 
 <script>
 	import Counter from '$lib/components/Counter.svelte';

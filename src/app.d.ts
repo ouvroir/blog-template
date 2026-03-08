@@ -1,3 +1,5 @@
+import type { Component } from 'svelte';
+
 // See https://svelte.dev/docs/kit/types#app.d.ts
 // for information about these interfaces
 declare global {
@@ -21,6 +23,7 @@ declare global {
 		author: string;
 		description: string;
 		date: string | Date;
+		tags?: string[] | string;
 		published: boolean;
 		[key: string]: unknown;
 	}
@@ -29,13 +32,13 @@ declare global {
 export {};
 
 declare module '*.md' {
-	const component: import('svelte').ComponentType;
+	const component: Component;
 	export default component;
 	export const metadata: Record<string, unknown>;
 }
 
 declare module '*.svx' {
-	const component: import('svelte').ComponentType;
+	const component: Component;
 	export default component;
 	export const metadata: Record<string, unknown>;
 }
