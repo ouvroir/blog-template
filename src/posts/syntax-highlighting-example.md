@@ -11,10 +11,8 @@ published: true
 
 mdsvex has automatic, built-in syntax highlighting with [Prism.js](https://prismjs.com/); just include the language name after the triple backticks, like so:
 
-```
-\```css
+```css
 /* Your CSS here */
-\```
 ```
 
 And that will render just like so:
@@ -29,10 +27,8 @@ And that will render just like so:
 
 Here's how you'd do JavaScript:
 
-```
-\```js
+```js
 // You can use js or javascript for the language
-\```
 ```
 
 Highlighted code sample:
