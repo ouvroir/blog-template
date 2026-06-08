@@ -11,7 +11,7 @@ published: true
 
 Here are some headings:
 
-## Here's an h2
+## Here’s an h2
 
 Lorem ipsum dolor sit amet
 

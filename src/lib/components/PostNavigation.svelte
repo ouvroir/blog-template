@@ -4,10 +4,10 @@
 		title: string;
 	};
 
-	interface Props {
+	type Props = {
 		previousPost?: NavigationPost | null;
 		nextPost?: NavigationPost | null;
-	}
+	};
 
 	let {
 		previousPost = null,

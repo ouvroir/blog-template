@@ -2,7 +2,8 @@ import type { Component } from 'svelte';
 import { error } from '@sveltejs/kit';
 
 import { isPost } from '$lib/utilities/isPost';
-import { normalizePostDate } from '$lib/utilities/normalizePostDate';
+import { normalizePostDate } from '$lib/utilities/dates';
+import { getReadingTime } from '$lib/utilities/readingTime';
 import { slugFromPath } from '$lib/utilities/slugFromPath';
 import { normalizeTags } from '$lib/utilities/tags';
 
@@ -11,12 +12,18 @@ export type LoadedPost = {
 	component: Component;
 	metadata: Posts & {
 		date: string;
+		readingTime: number;
 		tags: string[];
 	};
 };
 
+// Public API
 export const loadPublishedPosts = async (): Promise<LoadedPost[]> => {
 	const modules = import.meta.glob('/src/posts/*.{md,svx,svelte.md}');
+	const rawModules = import.meta.glob('/src/posts/*.{md,svx,svelte.md}', {
+		query: '?raw',
+		import: 'default'
+	}) as Record<string, () => Promise<string>>;
 	const entries = Object.entries(modules);
 
 	const loaded = await Promise.all(
@@ -26,7 +33,13 @@ export const loadPublishedPosts = async (): Promise<LoadedPost[]> => {
 				throw error(500, `Invalid post path: ${path}`);
 			}
 
+			const rawResolver = rawModules[path];
+			if (!rawResolver) {
+				throw error(500, `Missing raw module resolver for post: ${path}`);
+			}
+
 			const module = await resolver();
+			const rawContent = await rawResolver();
 			const mdsvexPost = module as {
 				default: Component;
 				metadata: Record<string, unknown>;
@@ -46,6 +59,7 @@ export const loadPublishedPosts = async (): Promise<LoadedPost[]> => {
 			}
 
 			const resolvedSlug = frontmatter.slug?.trim() || pathSlug;
+			const readingTime = getReadingTime(rawContent);
 
 			return {
 				slug: resolvedSlug,
@@ -54,6 +68,7 @@ export const loadPublishedPosts = async (): Promise<LoadedPost[]> => {
 					...frontmatter,
 					slug: resolvedSlug,
 					date: normalizedDate,
+					readingTime,
 					tags: normalizeTags(mdsvexPost.metadata.tags)
 				}
 			};
@@ -71,10 +86,8 @@ export const loadPublishedPosts = async (): Promise<LoadedPost[]> => {
 		seenSlugs.add(post.slug);
 	}
 
-	return publishedPosts;
+	return publishedPosts.toSorted(byPostDateDesc);
 };
 
-const toSortableDate = (date: string): string => (date.length === 7 ? `${date}-01` : date);
-
-export const byPostDateDesc = <T extends { metadata: { date: string } }>(a: T, b: T) =>
-	toSortableDate(b.metadata.date).localeCompare(toSortableDate(a.metadata.date));
+const byPostDateDesc = <T extends { metadata: { date: string } }>(a: T, b: T) =>
+	b.metadata.date.localeCompare(a.metadata.date);

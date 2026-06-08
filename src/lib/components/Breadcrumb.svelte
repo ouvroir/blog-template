@@ -1,56 +1,56 @@
 <script lang="ts">
 	import { page } from '$app/state';
 	import { navItems } from '$lib/config';
-	
+
 	interface BreadcrumbItem {
 		title: string;
 		href: string;
 	}
-	
-	// Build the breadcrumb from the current URL
-	let breadcrumbs = $derived.by(() => {
+
+	// Build breadcrumbs from the current URL
+	const breadcrumbs = $derived.by(() => {
 		const path = page.url.pathname;
 		const items: BreadcrumbItem[] = [];
-		
-		// Always add "Accueil" as the first item
+
+		// Always add "Accueil" first
 		items.push({ title: 'Accueil', href: '/' });
-		
-		// Show nothing else when we are at the root path
+
+		// Stop at root
 		if (path === '/') {
 			return items;
 		}
-		
-		// Split the path into segments
+
+		// Split path into segments
 		const segments = path.split('/').filter(Boolean);
 		let currentPath = '';
-		
+
 		segments.forEach((segment, index) => {
 			currentPath += `/${segment}`;
-			
-			// Look up the title in navItems
-			const navItem = navItems.find(item => item.route === currentPath);
-			
-			// If this is the last segment and page metadata exists
+
+			// Resolve title from navItems
+			const navItem = navItems.find((item) => item.route === currentPath);
+
+			// Use page metadata title for the last segment
 			if (index === segments.length - 1 && page.data?.metadata?.title) {
 				items.push({
 					title: page.data.metadata.title,
 					href: currentPath
 				});
-			}
-			// Otherwise use navItem title or format the segment
-			else {
-				const title = navItem?.title || segment
-					.split('-')
-					.map(word => word.charAt(0).toUpperCase() + word.slice(1))
-					.join(' ');
-				
+			} else {
+				const title =
+					navItem?.title ||
+					segment
+						.split('-')
+						.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+						.join(' ');
+
 				items.push({
 					title,
 					href: currentPath
 				});
 			}
 		});
-		
+
 		return items;
 	});
 </script>
@@ -79,7 +79,7 @@
 		padding: 0;
 		gap: 0.5rem;
 	}
-	
+
 	nav li:not(:last-child)::after {
 		content: '›';
 		margin-left: 0.5rem;

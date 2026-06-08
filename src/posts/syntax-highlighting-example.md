@@ -1,7 +1,7 @@
 ---
 title: "Syntax highlighting with mdsvex"
 date: 2023-01-05
-author: "emchateau"
+author: ["emchateau", "auteur en chaîne"]
 description: "Test description"
 tags: ["mdsvex", "prism", "code"]
 published: true

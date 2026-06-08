@@ -10,7 +10,7 @@ declare global {
 			metadata?: {
 				title?: string;
 				description?: string;
-				author?: string | string[];
+				author?: BlogAuthorInput | BlogAuthorInput[];
 				slug?: string;
 				[key: string]: unknown;
 			};
@@ -19,12 +19,30 @@ declare global {
 		// interface Platform {}
 	}
 
+	interface Author {
+		id?: string;
+		slug?: string;
+		name: string;
+		href?: string;
+		role?: string;
+	}
+
+	interface BlogAuthor {
+		id?: string;
+		slug?: string;
+		name?: string;
+		href?: string;
+	}
+
+	type BlogAuthorInput = string | BlogAuthor;
+
 	interface Posts {
 		slug?: string;
 		title: string;
-		author?: string | string[];
+		author?: BlogAuthorInput | BlogAuthorInput[];
 		description: string;
 		date: string | Date;
+		readingTime?: number;
 		tags?: string[] | string;
 		published: boolean;
 		[key: string]: unknown;
@@ -58,6 +76,56 @@ declare global {
 	interface OrcidUrl {
 		name?: string;
 		url?: string;
+	}
+
+	interface ZoteroDetailField {
+		key: string;
+		value: string;
+	}
+
+	interface ZoteroCreator {
+		creatorType?: string;
+		firstName?: string;
+		lastName?: string;
+		name?: string;
+	}
+
+	interface ZoteroPublication {
+		key: string;
+		title: string;
+		itemType: string;
+		date?: string;
+		parsedDate?: string;
+		creators: ZoteroCreator[];
+		tags?: string[];
+		abstractNote?: string;
+		formattedCitation?: string;
+		detailFields: ZoteroDetailField[];
+		publicationTitle?: string;
+		publisher?: string;
+		university?: string;
+		institution?: string;
+		websiteTitle?: string;
+		journalAbbreviation?: string;
+		url?: string;
+		doi?: string;
+		zoteroUrl?: string;
+	}
+
+	interface ZoteroPublicationGroup {
+		key: string;
+		label: string;
+		publications: ZoteroPublication[];
+	}
+
+	interface ZoteroPublicationsResult {
+		username: string;
+		userId?: number;
+		displayName?: string;
+		publications?: ZoteroPublication[];
+		sourceUrl?: string;
+		updatedAt?: string;
+		error?: string;
 	}
 }
 

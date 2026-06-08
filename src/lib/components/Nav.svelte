@@ -2,7 +2,7 @@
 	import { page } from '$app/state';
 	import { navItems, siteTitle } from '$lib/config';
 
-	const visibleItems = navItems.filter(item => !item.hidden);
+	const visibleItems = navItems.filter((item) => !item.hidden);
 	let pathname = $derived(page.url.pathname);
 	const isCurrentRoute = (route: string) =>
 		route === '/' ? pathname === '/' : pathname === route || pathname.startsWith(`${route}/`);

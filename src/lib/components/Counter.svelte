@@ -1,10 +1,10 @@
 <script lang="ts">
-	let count = 0;
+	let count = $state(0);
 </script>
 
 <div class="counter">
 	<p class="count">{count}</p>
-	<button on:click={() => (count += 1)}>Increment</button>
+  <button onclick={() => (count += 1)}>Increment</button>
 </div>
 
 <style>

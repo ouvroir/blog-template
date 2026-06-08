@@ -18,6 +18,8 @@
 			slug={post.slug}
 			title={post.title}
 			date={post.date}
+			authors={post.author}
+			readingTime={post.readingTime}
 			tags={post.tags}
 		/>
 	{/each}

@@ -3,21 +3,21 @@
 
 	import * as config from '$lib/config';
 	import * as seo from '$lib/utilities/seo';
-	
+
 	import Breadcrumb from '$lib/components/Breadcrumb.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import Nav from '$lib/components/Nav.svelte';
-	
+
 	let { children } = $props();
-	let canonical = $derived(seo.getCanonicalUrl(page.url.pathname));
-	
-	// get metadata from page.data.metadata (+page.ts)
-	let metadata = $derived(page.data?.metadata || {});
-	let pageTitle = $derived(metadata.title ? `${metadata.title} | ${config.siteTitle}` : config.siteTitle);
-	let pageDescription = $derived(metadata.description || config.siteDescription);
+	const canonical = $derived(seo.getCanonicalUrl(page.url.pathname));
+
+	// Read metadata from page.data.metadata (+page.ts)
+	const metadata = $derived(page.data?.metadata ?? {});
+	const pageTitle = $derived(metadata.title ? `${metadata.title} | ${config.siteTitle}` : config.siteTitle);
+	const pageDescription = $derived(metadata.description || config.siteDescription);
 </script>
 
-<!-- SEO with page.data.metadata. Pages can override with their own <svelte:head>. -->
+<!-- SEO from page.data.metadata. Pages can override with their own <svelte:head>. -->
 <svelte:head>
 	<title>{pageTitle}</title>
 	<meta name="description" content={pageDescription} />
@@ -27,15 +27,15 @@
 <a class="skip-link" href="#page-content">Aller au contenu principal</a>
 
 <header>
-	<Nav/>
+	<Nav />
 </header>
 <main>
-	<Breadcrumb/>
+	<Breadcrumb />
 	<article id="page-content" tabindex="-1">
 		{@render children?.()}
 	</article>
 </main>
-<Footer/>
+<Footer />
 
 <style>
 	.skip-link {
@@ -61,7 +61,7 @@
 		opacity: 0.3;
 	}
 
-	/* Styles pour les notes de bas de page */
+	/* Footnotes */
 	:global(article .footnotes) {
 		margin-top: 2rem;
 		padding-top: 1rem;
@@ -73,7 +73,7 @@
 		padding-left: 1.5rem;
 	}
 
-	/* Appels de notes dans le texte : style discret et neutre */
+	/* In-text footnote calls */
 	:global(article sup[id^="fnref-"]) {
 		background: none;
 		padding: 0;
@@ -88,12 +88,12 @@
 		text-decoration: underline;
 	}
 
-	/* Lien retour dans les notes de bas de page */
+	/* Back link inside footnotes */
 	:global(article .footnote-backref) {
 		text-decoration: none;
 	}
 
-	/* Numérotation des paragraphes dans la marge gauche */
+	/* Paragraph numbering in the left margin */
 	:global(article) {
 		counter-reset: paragraph;
 		position: relative;
@@ -113,7 +113,7 @@
 		user-select: none;
 	}
 
-	/* Ne pas numéroter les paragraphes dans les notes de bas de page */
+	/* Do not number paragraphs inside footnotes */
 	:global(article .footnotes) {
 		counter-reset: none;
 	}

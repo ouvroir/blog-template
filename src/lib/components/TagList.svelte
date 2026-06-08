@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { tagToSlug } from '$lib/utilities/tags';
 
-	interface Props {
+	type Props = {
 		tags?: string[];
 		label?: string;
-	}
+	};
 
 	let {
 		tags = [],

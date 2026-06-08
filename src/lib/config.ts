@@ -1,7 +1,7 @@
 /**
- * Values used across the site.
+ * Shared site values.
  *
- * This file should be updated with your own values.
+ * Update this file with your own values.
  **/
 
 export const siteTitle = 'Blog template';
@@ -9,44 +9,74 @@ export const siteDescription = 'Built with the SvelteKit Ouvroir’s Static Blog
 export const siteURL = 'example.com';
 export const siteLink = 'https://github.com/ouvroir/blog-template';
 export const siteAuthor = 'Ouvroir';
-export const contactInfo = 'emmanuel.chateau.dutier@umontreal.ca'
+export const contactInfo = 'emmanuel.chateau.dutier@umontreal.ca';
 
-// posts shown per page on the main blog index pages
+// Optional author directory used to resolve profile links from IDs.
+// Recommended: keep key and slug identical unless you need a separate internal ID.
+export const authorProfiles: Record<
+	string,
+	{
+		slug: string;
+		name?: string;
+		href?: string;
+		orcidId?: string;
+		zoteroUsername?: string;
+		zoteroUserId?: number;
+		forgeService?: string;
+		forgeUsername?: string;
+	}
+> = {
+	emchateau: {
+		slug: 'emchateau',
+		name: 'Emmanuel Chateau-Dutier',
+		href: '/auteurs/emchateau',
+		orcidId: '0000-0003-4092-4569',
+		zoteroUsername: 'emchateau',
+		zoteroUserId: 4883,
+		forgeService: 'codeberg',
+		forgeUsername: 'emchateau'
+	},
+	ouvroir: {
+		slug: 'ouvroir',
+		name: 'Ouvroir',
+		href: '/auteurs/ouvroir'
+	}
+};
+
+// Posts shown per page on the main blog index
 export const postsPerPage = 10;
 
-// ORCID identifier (optional)
-export const orcidId = '0000-0003-4092-4569';
+// Zotero citation settings (global)
+export const zoteroCitationStyle = 'chicago-note-bibliography';
+export const zoteroCitationLocale = 'fr-FR';
+export const zoteroReferenceContent: 'bib' | 'citation' = 'bib';
 
-// Zotero identifier (optional)
-export const zotero = 'emchateau'
-
-// Forge (optional) - version control platform and account identifier
-export const forge = {
-	service: 'codeberg',
-	username: 'emchateau'
-}
-
-// Main nav menu (also used by the footer and mobile nav)
-// The 'hidden' property is optional: if missing or false, the item is shown by default
+// Main navigation menu (also used in footer and mobile nav)
+// 'hidden' is optional: omitted or false means visible by default
 export const navItems = [
 	{
 		title: 'Accueil',
 		route: '/',
-		hidden: true // Hide this item from the menu
+		hidden: true // Hide this item from menus
 	},
 	{
 		title: 'Blog',
 		route: '/blog'
-		// hidden not defined = shown by default
+		// hidden omitted = visible by default
 	},
 	{
 		title: 'Tags',
 		route: '/tags'
-		// hidden not defined = shown by default
+		// hidden omitted = visible by default
+	},
+	{
+		title: 'Publications',
+		route: '/publications'
+		// hidden omitted = visible by default
 	},
 	{
 		title: 'À propos',
 		route: '/a-propos'
-		// hidden not defined = shown by default
+		// hidden omitted = visible by default
 	}
 ];

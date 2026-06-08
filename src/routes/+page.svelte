@@ -1,3 +1,11 @@
+<script lang="ts">
+	import * as config from '$lib/config';
+</script>
+
+<svelte:head>
+	<title>{config.siteTitle}</title>
+	<meta name="description" content={config.siteDescription} />
+</svelte:head>
 
 <header>
 	<h1>Welcome to Ouvroir’s Blog template</h1>
