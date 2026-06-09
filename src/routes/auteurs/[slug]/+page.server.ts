@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
-import { ORCID_CLIENT_ID, ORCID_CLIENT_SECRET } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 import * as config from '$lib/config';
 import { loadOrcidProfile } from '$lib/utilities/loadOrcidProfile';
@@ -34,6 +34,8 @@ export const load: PageServerLoad = async ({ params }) => {
 	}
 
 	const orcidId = profile.orcidId;
+	const orcidClientId = env.ORCID_CLIENT_ID;
+	const orcidClientSecret = env.ORCID_CLIENT_SECRET;
 
 	return {
 		metadata: {
@@ -44,7 +46,7 @@ export const load: PageServerLoad = async ({ params }) => {
 		},
 		author: profile,
 		orcidProfile: orcidId
-			? await loadOrcidProfile(orcidId, ORCID_CLIENT_ID, ORCID_CLIENT_SECRET)
+			? await loadOrcidProfile(orcidId, orcidClientId, orcidClientSecret)
 			: null
 	};
 };
