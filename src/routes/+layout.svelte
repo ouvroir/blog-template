@@ -22,6 +22,7 @@
 	<title>{pageTitle}</title>
 	<meta name="description" content={pageDescription} />
 	<link rel="canonical" href={canonical} />
+	<link rel="alternate" type="application/rss+xml" title={`${config.siteTitle} RSS`} href="/rss.xml" />
 </svelte:head>
 
 <a class="skip-link" href="#page-content">Aller au contenu principal</a>

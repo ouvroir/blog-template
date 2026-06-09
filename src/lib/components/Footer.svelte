@@ -19,6 +19,7 @@
 				{#each visibleItems as item (item.route)}
 					<li><a href={item.route}>{item.title}</a></li>
 				{/each}
+				<li><a href="/rss.xml">RSS</a></li>
 			</ul>
 		</nav>
 	</div>
