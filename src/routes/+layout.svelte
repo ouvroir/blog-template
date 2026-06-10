@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 
 	import * as config from '$lib/config';
@@ -15,6 +16,7 @@
 	const metadata = $derived(page.data?.metadata ?? {});
 	const pageTitle = $derived(metadata.title ? `${metadata.title} | ${config.siteTitle}` : config.siteTitle);
 	const pageDescription = $derived(metadata.description || config.siteDescription);
+	const url = $derived(resolve('/rss.xml'));
 </script>
 
 <!-- SEO from page.data.metadata. Pages can override with their own <svelte:head>. -->
@@ -22,7 +24,7 @@
 	<title>{pageTitle}</title>
 	<meta name="description" content={pageDescription} />
 	<link rel="canonical" href={canonical} />
-	<link rel="alternate" type="application/rss+xml" title={`${config.siteTitle} RSS`} href="/rss.xml" />
+	<link rel="alternate" type="application/rss+xml" title={`${config.siteTitle} RSS`} href={url} />
 </svelte:head>
 
 <a class="skip-link" href="#page-content">Aller au contenu principal</a>

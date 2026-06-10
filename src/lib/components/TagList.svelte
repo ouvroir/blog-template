@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { tagToSlug } from '$lib/utilities/tags';
 
 	type Props = {
@@ -10,13 +11,15 @@
 		tags = [],
 		label = 'Tags de l’article'
 	}: Props = $props();
+
+	const url = (tag: string) => resolve('/tags/[tag]', { tag: tagToSlug(tag) });
 </script>
 
 {#if tags.length > 0}
 	<ul aria-label={label}>
 		{#each tags as tag (tagToSlug(tag))}
 			<li>
-				<a href={`/tags/${tagToSlug(tag)}`} aria-label={`Voir les articles du tag ${tag}`}>
+				<a href={url(tag)} aria-label={`Voir les articles du tag ${tag}`}>
 					#{tag}
 				</a>
 			</li>

@@ -41,7 +41,10 @@ const config = {
     })
   ],
   kit: {
-    adapter: adapter()
+    adapter: adapter(),
+    paths: {
+      base: process.env.BASE_PATH ?? ''
+    }
   },
 	extensions: ['.svelte', '.svx', '.md']
 };

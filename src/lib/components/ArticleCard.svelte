@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { authorProfiles } from '$lib/config';
 	import TagList from '$lib/components/TagList.svelte';
 	import { normalizeBlogAuthors } from '$lib/utilities/authors';
@@ -17,6 +18,7 @@
 
 	const normalizedAuthors = $derived(normalizeBlogAuthors(authors, authorProfiles));
 	const authorLabel = $derived(normalizedAuthors.length > 1 ? 'Auteurs' : 'Auteur');
+	const url = $derived(resolve('/blog/[slug]', { slug }));
 </script>
 
 <article class="postCard">
@@ -54,7 +56,7 @@
 		<a
 			class="stretchedLink"
 			rel="bookmark"
-			href={`/blog/${slug}`}
+			href={url}
 			aria-label={`Lire la suite&nbsp;: ${title}`}
 		>
 			Lire la suite&nbsp;→

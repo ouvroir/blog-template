@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
+
 	type NavigationPost = {
 		slug: string;
 		title: string;
@@ -13,13 +15,15 @@
 		previousPost = null,
 		nextPost = null
 	}: Props = $props();
+
+	const url = (slug: string) => resolve('/blog/[slug]', { slug });
 </script>
 
 {#if previousPost || nextPost}
 	<nav aria-label="Navigation entre articles">
 		{#if previousPost}
 			<a
-				href={`/blog/${previousPost.slug}`}
+				href={url(previousPost.slug)}
 				rel="prev"
 				aria-label={`Article precedent: ${previousPost.title}`}
 			>
@@ -28,7 +32,7 @@
 		{/if}
 		{#if nextPost}
 			<a
-				href={`/blog/${nextPost.slug}`}
+				href={url(nextPost.slug)}
 				rel="next"
 				aria-label={`Article suivant: ${nextPost.title}`}
 			>

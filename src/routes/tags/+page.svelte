@@ -1,8 +1,10 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import type { PageProps } from './$types';
 	import * as config from '$lib/config';
 
 	let { data }: PageProps = $props();
+	const url = (tag: string) => resolve('/tags/[tag]', { tag });
 </script>
 
 <svelte:head>
@@ -20,7 +22,7 @@
 		<ul>
 			{#each data.postTags as tag (tag.slug)}
 				<li>
-					<a href={`/tags/${tag.slug}`}>#{tag.tag}</a> ({tag.count})
+					<a href={url(tag.slug)}>#{tag.tag}</a> ({tag.count})
 				</li>
 			{/each}
 		</ul>
@@ -35,7 +37,7 @@
 		<ul>
 			{#each data.publicationTags as tag (tag.slug)}
 				<li>
-					<a href={`/tags/${tag.slug}`}>#{tag.tag}</a> ({tag.count})
+					<a href={url(tag.slug)}>#{tag.tag}</a> ({tag.count})
 				</li>
 			{/each}
 		</ul>

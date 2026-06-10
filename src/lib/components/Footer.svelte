@@ -1,7 +1,11 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import * as config from '$lib/config';
 
+	type FooterRoute = '/' | '/blog' | '/tags' | '/publications' | '/a-propos' | '/rss.xml';
+
 	const visibleItems = config.navItems.filter((item) => !item.hidden);
+	const withBase = (route: FooterRoute) => resolve(route);
 </script>
 
 <footer>
@@ -17,9 +21,9 @@
 			<p><small>Navigation</small></p>
 			<ul>
 				{#each visibleItems as item (item.route)}
-					<li><a href={item.route}>{item.title}</a></li>
+					<li><a href={withBase(item.route as FooterRoute)}>{item.title}</a></li>
 				{/each}
-				<li><a href="/rss.xml">RSS</a></li>
+				<li><a href={withBase('/rss.xml')}>RSS</a></li>
 			</ul>
 		</nav>
 	</div>
