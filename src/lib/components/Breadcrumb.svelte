@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { resolve } from '$app/paths';
 	import { page } from '$app/state';
 	import { navItems } from '$lib/config';
 
@@ -7,13 +8,25 @@
 		href: string;
 	}
 
+	const root = resolve('/');
+	const rootPrefix = root === '/' ? '' : root.slice(0, -1);
+
+	const withBase = (path: string): string => `${root}${path.replace(/^\/+/, '')}`;
+
+	const toAppPath = (pathname: string): string => {
+		if (!rootPrefix || !pathname.startsWith(rootPrefix)) return pathname;
+
+		const stripped = pathname.slice(rootPrefix.length);
+		return stripped ? (stripped.startsWith('/') ? stripped : `/${stripped}`) : '/';
+	};
+
 	// Build breadcrumbs from the current URL
 	const breadcrumbs = $derived.by(() => {
-		const path = page.url.pathname;
+		const path = toAppPath(page.url.pathname);
 		const items: BreadcrumbItem[] = [];
 
 		// Always add "Accueil" first
-		items.push({ title: 'Accueil', href: '/' });
+		items.push({ title: 'Accueil', href: withBase('/') });
 
 		// Stop at root
 		if (path === '/') {
@@ -26,6 +39,7 @@
 
 		segments.forEach((segment, index) => {
 			currentPath += `/${segment}`;
+			const href = withBase(currentPath);
 
 			// Resolve title from navItems
 			const navItem = navItems.find((item) => item.route === currentPath);
@@ -34,7 +48,7 @@
 			if (index === segments.length - 1 && page.data?.metadata?.title) {
 				items.push({
 					title: page.data.metadata.title,
-					href: currentPath
+					href
 				});
 			} else {
 				const title =
@@ -46,7 +60,7 @@
 
 				items.push({
 					title,
-					href: currentPath
+					href
 				});
 			}
 		});

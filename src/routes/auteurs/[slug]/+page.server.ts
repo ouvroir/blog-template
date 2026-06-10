@@ -1,3 +1,4 @@
+import { resolve } from '$app/paths';
 import type { PageServerLoad } from './$types';
 import { error } from '@sveltejs/kit';
 import { env } from '$env/dynamic/private';
@@ -13,13 +14,18 @@ type ResolvedAuthorProfile = ConfigAuthorProfile & {
 	href: string;
 };
 
+const withBase = (path: string): string =>
+	path.startsWith('/') ? `${resolve('/')}${path.slice(1)}` : path;
+
 const findAuthorProfile = (slug: string): ResolvedAuthorProfile | null => {
 	for (const [id, profile] of Object.entries(config.authorProfiles)) {
 		if (profile.slug === slug) {
 			return {
 				...profile,
 				id,
-				href: profile.href || `/auteurs/${profile.slug}`
+				href: profile.href
+					? withBase(profile.href)
+					: resolve('/auteurs/[slug]', { slug: profile.slug })
 			};
 		}
 	}

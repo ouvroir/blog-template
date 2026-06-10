@@ -1,3 +1,5 @@
+import { resolve } from '$app/paths';
+
 type AuthorProfile = {
 	slug: string;
 	name?: string;
@@ -33,8 +35,17 @@ const normalizeString = (value: unknown): string | undefined => {
 	return normalized.length > 0 ? normalized : undefined;
 };
 
-const toAuthorHref = (slug?: string, explicitHref?: string): string | undefined =>
-	normalizeString(explicitHref) || (slug ? `/auteurs/${slug}` : undefined);
+const withBase = (path: string): string =>
+	path.startsWith('/') ? `${resolve('/')}${path.slice(1)}` : path;
+
+const toAuthorHref = (slug?: string, explicitHref?: string): string | undefined => {
+	const normalizedHref = normalizeString(explicitHref);
+	if (normalizedHref) {
+		return withBase(normalizedHref);
+	}
+
+	return slug ? resolve('/auteurs/[slug]', { slug }) : undefined;
+};
 
 const isBlogAuthorObject = (value: unknown): value is BlogAuthor => {
 	if (typeof value !== 'object' || value === null) return false;
