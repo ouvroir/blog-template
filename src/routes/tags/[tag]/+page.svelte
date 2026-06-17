@@ -2,6 +2,7 @@
 	import type { PageProps } from './$types';
 	import * as config from '$lib/config';
 	import ArticleCard from '$lib/components/ArticleCard.svelte';
+	import ProjectCard from '$lib/components/ProjectCard.svelte';
 	import ZoteroReference from '$lib/components/ZoteroReference.svelte';
 
 	let { data }: PageProps = $props();
@@ -9,26 +10,48 @@
 
 <svelte:head>
 	<title>{data.tag.name} | {config.siteTitle}</title>
-	<meta name="description" content={`Billets et publications associés au tag ${data.tag.name}`} />
+	<meta name="description" content={`Ressources associées au tag ${data.tag.name}`} />
 </svelte:head>
 
 <h1>Tag: #{data.tag.name}</h1>
-<p>{data.tag.postCount} billet(s) · {data.tag.publicationCount} publication(s)</p>
+<p>
+	{data.tag.postCount} billet(s) · {data.tag.projectCount} projet(s) · {data.tag.publicationCount} publication(s)
+</p>
 
-<section aria-label={`Articles pour le tag ${data.tag.name}`}>
+<section aria-label={`Billets pour le tag ${data.tag.name}`}>
 	<h2>Billets</h2>
 	{#if data.posts.length === 0}
 		<p>Aucun billet pour ce tag.</p>
+	{:else}
+		{#each data.posts as post (post.slug)}
+			<ArticleCard
+				slug={post.slug}
+				title={post.title}
+				date={post.date}
+				readingTime={post.readingTime}
+				tags={post.tags}
+			/>
+		{/each}
 	{/if}
-	{#each data.posts as post (post.slug)}
-		<ArticleCard
-			slug={post.slug}
-			title={post.title}
-			date={post.date}
-			readingTime={post.readingTime}
-			tags={post.tags}
-		/>
-	{/each}
+</section>
+
+<section aria-label={`Projets pour le tag ${data.tag.name}`}>
+	<h2>Projets</h2>
+	{#if data.projects.length === 0}
+		<p>Aucun projet pour ce tag.</p>
+	{:else}
+		{#each data.projects as project (project.slug)}
+			<ProjectCard
+				slug={project.slug}
+				title={project.title}
+				date={project.date}
+				authors={project.author}
+				repo={project.repo}
+				link={project.link}
+				tags={project.tags}
+			/>
+		{/each}
+	{/if}
 </section>
 
 <section aria-label={`Publications pour le tag ${data.tag.name}`}>

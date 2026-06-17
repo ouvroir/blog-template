@@ -43,8 +43,10 @@ export const authorProfiles: Record<
 	}
 };
 
-// Posts shown per page on the main blog index
+// Posts shown per page on the blog index
 export const postsPerPage = 10;
+// Projects shown per page
+export const projectsPerPage = 10;
 
 // Zotero citation settings (global)
 export const zoteroCitationStyle = 'chicago-note-bibliography';
@@ -63,6 +65,10 @@ export const navItems = [
 		title: 'Blog',
 		route: '/blog'
 		// hidden omitted = visible by default
+	},
+	{
+		title: 'Projets',
+		route: '/projects'
 	},
 	{
 		title: 'Tags',

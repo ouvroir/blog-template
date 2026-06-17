@@ -29,6 +29,21 @@
 	{/if}
 </section>
 
+<section aria-label="Tags des projets">
+	<h2>Projets</h2>
+	{#if data.projectTags.length === 0}
+		<p>Aucun tag pour les projets.</p>
+	{:else}
+		<ul>
+			{#each data.projectTags as tag (tag.slug)}
+				<li>
+					<a href={url(tag.slug)}>#{tag.tag}</a> ({tag.count})
+				</li>
+			{/each}
+		</ul>
+	{/if}
+</section>
+
 <section aria-label="Tags des publications">
 	<h2>Publications</h2>
 	{#if data.publicationTags.length === 0}

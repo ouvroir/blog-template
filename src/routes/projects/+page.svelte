@@ -2,33 +2,34 @@
 	import { resolve } from '$app/paths';
 	import type { PageProps } from './$types';
 	import * as config from '$lib/config';
-	import ArticleCard from '$lib/components/ArticleCard.svelte';
+	import ProjectCard from '$lib/components/ProjectCard.svelte';
 
 	let { data }: PageProps = $props();
 	const url = (tag: string) => resolve('/tags/[tag]', { tag });
 </script>
 
 <svelte:head>
-	<title>Blog | {config.siteTitle}</title>
-	<meta name="description" content={config.siteDescription} />
+	<title>Projets | {config.siteTitle}</title>
+	<meta name="description" content={data.metadata.description} />
 </svelte:head>
 
-<h1>Liste des billets</h1>
-<section aria-label="Articles du blog">
-	{#each data.posts as post (post.slug)}
-		<ArticleCard
-			slug={post.slug}
-			title={post.title}
-			date={post.date}
-			authors={post.author}
-			readingTime={post.readingTime}
-			tags={post.tags}
+<h1>Liste des Projets</h1>
+<section aria-label="Projects">
+	{#each data.projects as project (project.slug)}
+		<ProjectCard
+			slug={project.slug}
+			title={project.title}
+			date={project.date}
+			authors={project.author}
+			repo={project.repo}
+			link={project.url}
+			tags={project.tags}
 		/>
 	{/each}
 </section>
 
 {#if data.tags.length > 0}
-	<section aria-label="Tags du blog">
+	<section aria-label="Tags des projets">
 		<h2>Tous les tags</h2>
 		<p>
 			{#each data.tags as tag, index (tag.slug)}

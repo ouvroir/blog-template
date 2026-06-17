@@ -2,6 +2,16 @@
 
 Page de liste de blogs par auteur
 
+- [ ] Rendre optionnelle la génération de biblio
+- [ ] Génériciser les fonctions load pour ne pas avoir trop de dépendances, chemin, etc.
+- [ ] Rendre la contrainte sur les métadonnées un peu moins forte, renvoyer des mssg explicites
+- [ ] Permettre les entiers dans les tags ?
+
+- [ ] Unifier le traitement des tags pour pouvoir ajouter d’autres ressources (il reste à génériciser la base pour la carte )
+- [ ] Avoir un parseur Zotero (faire une dépendance ?)
+
+Pb de crawling
+
 <section class="postsList">
     <header>
         <p>

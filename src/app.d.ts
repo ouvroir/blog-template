@@ -48,6 +48,19 @@ declare global {
 		[key: string]: unknown;
 	}
 
+	interface Projects {
+		slug?: string;
+		title: string;
+		author?: BlogAuthorInput | BlogAuthorInput[];
+		description: string;
+		date: string | Date;
+		repo?: string;
+		link?: string;
+		tags?: string[] | string;
+		published: boolean;
+		[key: string]: unknown;
+	}
+
 	interface OrcidProfile {
 		name?: string;
 		biography?: string;

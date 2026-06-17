@@ -18,6 +18,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v5
+        with:
+          submodules: recursive
 
       - name: Install Node.js
         uses: actions/setup-node@v5
@@ -26,11 +28,6 @@ jobs:
 
       - name: Install Dependencies
         run: npm install
-
-      - name: Update submodule reference and copy assets in static folder
-        run: |
-          [ -f .gitmodules ] && git submodule sync --recursive && git submodule update --init --recursive || echo "No submodules configured."
-          [ -f ./update_submodules.sh ] && sh ./update_submodules.sh || echo "update_submodules.sh not found, skipping."
 
       - name: Build Application
         # Set repository variable BASE_PATH when needed.
