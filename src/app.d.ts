@@ -61,6 +61,12 @@ declare global {
 		[key: string]: unknown;
 	}
 
+	interface Heading {
+		depth: 2 | 3;
+		text: string;
+		id: string;
+	}
+
 	interface OrcidProfile {
 		name?: string;
 		biography?: string;
